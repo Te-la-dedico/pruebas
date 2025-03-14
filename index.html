@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te lo dedico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .content {
+            margin-top: 20px;
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #text {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .subtext a {
+            color: blue;
+            text-decoration: none;
+        }
+        .arrow {
+            position: absolute;
+            bottom: 10px;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .arrow-left {
+            left: 2px;
+        }
+        .arrow-right {
+            right: 2px;
+        }
+        .arrow:active {
+            transform: scale(0.9);
+        }
+        #play-music {
+            margin-top: 30px;
+            padding: 12px 25px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+            color: white;
+            transition: transform 0.2s ease-in-out;
+        }
+        #play-music:active {
+            transform: scale(0.9);
+        }
+        .music-text {
+            font-size: 14px;
+            color: gray;
+            margin-top: 5px;
+        }
+        /* Animaciones de desvanecimiento */
+        .fade-out {
+            opacity: 0;
+        }
+        .fade-in {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Te lo dedico</div>
+    <div class="container">
+        <div class="content">
+            <div class="video-container">
+                <video id="video" autoplay loop muted>
+                    <source id="video-source" src="https://i.imgur.com/jjDpE1M.mp4" type="video/mp4">
+                    Tu navegador no soporta el video.
+                </video>
+            </div>
+            <div id="text">Carta de Amor</div>
+            <div id="subtext" class="subtext"><a id="subtext-link" href="https://te-la-dedico.github.io/" target="_blank">https://te-la-dedico.github.io/</a></div>
+            <!-- Enlace de descarga -->
+            <div id="download-link" style="margin-top: 10px;">
+                <a id="download-anchor" href="carta.html" download="carta.html">Descargar Carta</a>
+            </div>
+        </div>
+        <div class="arrow arrow-left" onclick="prevContent()">⬅️</div>
+        <div class="arrow arrow-right" onclick="nextContent()">➡️</div>
+    </div>
+    <audio id="background-music" loop>
+        <source src="https://www.dropbox.com/s/o3y38b5aus9gxsn/SAN%20VALENT%C3%8DN-AMOR%20Y%20AMISTAD%20M%C3%9ASICA%20G.mp3?raw=1" type="audio/mp3">
+        Tu navegador no soporta el audio.
+    </audio>
+    <button id="play-music" onclick="playMusic()">🎵 REPRODUCEME</button>
+    <div class="music-text">🢁 mientras buscas que dedicar a esa persona <br> relájate con la música 🢁</div>
+    <script>
+        const contents = [
+            { 
+                video: "https://i.imgur.com/jjDpE1M.mp4", 
+                text: "Carta de Amor", 
+                subtext: "https://te-la-dedico.github.io/", 
+                download: "carta.html", 
+                downloadText: "Descargar Carta" 
+            },
+            { 
+                video: "https://i.imgur.com/WJGgdUs.mp4", 
+                text: "Frases de personajes", 
+                subtext: "https://te-la-dedico.github.io/frases/", 
+                download: "frases.html", 
+                downloadText: "Descargar Frases" 
+            },
+            { 
+                video: "https://i.imgur.com/pf64dyo.mp4", 
+                text: "Hazme clic para tu Novia", 
+                subtext: "https://te-la-dedico.github.io/hazme-clic/", 
+                download: "hazme_click_princesa.html", 
+                downloadText: "Descargar Hazme Click Princesa" 
+            },
+            { 
+                video: "https://i.imgur.com/fiM4jiM.mp4", 
+                text: "Hazme clic para tu Novio", 
+                subtext: "https://te-la-dedico.github.io/hazme-click/", 
+                download: "hazme_click_principe.html", 
+                downloadText: "Descargar Hazme Click Príncipe" 
+            },
+            { 
+                video: "https://i.imgur.com/DBWQuUO.mp4", 
+                text: "Te gustaría ser mi novia?", 
+                subtext: "https://te-la-dedico.github.io/te.gustaria-/", 
+                download: "te_gustaria.html", 
+                downloadText: "Descargar Te Gustaría?" 
+            },
+            { 
+                video: "https://i.imgur.com/1PU8Bdr.mp4", 
+                text: "Quieres ser mi entrenador/a?", 
+                subtext: "https://te-la-dedico.github.io/pikachu/", 
+                download: "quieres_ser.html", 
+                downloadText: "Descargar Quieres Ser?" 
+            },
+            { 
+                video: "https://i.imgur.com/UFcloeg.mp4", 
+                text: "Dame varios click y veras", 
+                subtext: "https://te-la-dedico.github.io/clickeame/", 
+                download: "lo_que_te_pertenece.html", 
+                downloadText: "Descargar Lo Que Te Pertenece" 
+            },
+            { 
+                video: "https://i.imgur.com/ry5afXR.mp4", 
+                text: "Particulas de Corazon", 
+                subtext: "https://te-la-dedico.github.io/particulas/", 
+                download: "particulas.html", 
+                downloadText: "Descargar Partículas" 
+            }
+        ];
+
+        let index = 0;
+
+        function fadeOut(element) {
+            element.classList.add('fade-out');
+            setTimeout(() => {
+                element.classList.remove('fade-out');
+            }, 500); // Duración de la animación
+        }
+
+        function fadeIn(element) {
+            element.classList.add('fade-in');
+            setTimeout(() => {
+                element.classList.remove('fade-in');
+            }, 500); // Duración de la animación
+        }
+
+        function updateContent() {
+            const videoElement = document.getElementById("video");
+            const textElement = document.getElementById("text");
+            const subtextLinkElement = document.getElementById("subtext-link");
+            const downloadLinkElement = document.getElementById("download-anchor");
+
+            // Aplicar fade-out antes de cambiar el contenido
+            fadeOut(videoElement);
+            fadeOut(textElement);
+            fadeOut(subtextLinkElement);
+
+            // Cambiar el contenido después de la animación de fade-out
+            setTimeout(() => {
+                document.getElementById("video-source").src = contents[index].video;
+                document.getElementById("video").load();
+                textElement.innerText = contents[index].text;
+                subtextLinkElement.href = contents[index].subtext;
+                subtextLinkElement.innerText = contents[index].subtext;
+                downloadLinkElement.href = contents[index].download;
+                downloadLinkElement.download = contents[index].download;
+                downloadLinkElement.innerText = contents[index].downloadText;
+
+                // Aplicar fade-in después de cambiar el contenido
+                fadeIn(videoElement);
+                fadeIn(textElement);
+                fadeIn(subtextLinkElement);
+            }, 500); // Esperar a que termine el fade-out
+        }
+
+        function prevContent() {
+            index = (index - 1 + contents.length) % contents.length;
+            updateContent();
+        }
+
+        function nextContent() {
+            index = (index + 1) % contents.length;
+            updateContent();
+        }
+
+        function playMusic() {
+            let music = document.getElementById("background-music");
+            music.volume = 0.5;
+            music.play();
+            document.getElementById("play-music").style.display = "none";
+        }
+
+        // Función para manejar la descarga
+        function handleDownload(event, filename) {
+            event.preventDefault(); // Evita que el enlace se abra automáticamente
+            const link = document.createElement("a");
+            link.href = filename;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Asignar la función de descarga a los enlaces
+        document.querySelectorAll("a[download]").forEach(anchor => {
+            anchor.addEventListener("click", function(event) {
+                handleDownload(event, this.getAttribute("href"));
+            });
+        });
+    </script>
+
+    <div style="margin-top: 40px; text-align: center; font-size: 24px; font-weight: bold;">
+        Comparte mis videos de TikTok
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 10px;">
+        <span style="font-size: 24px;">↪︎</span>
+        <a href="https://www.tiktok.com/@teladedico_520?_t=ZM-8uYk4K1CXkj&_r=1" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok" style="width: 50px; height: 50px;">
+        </a>
+        <span style="font-size: 24px;">↩︎</span>
+    </div>
+    <div class="music-text" style="margin-top: 10px;">
+        Me inspiraría a seguir haciendo más detalles
+    </div>
+</body>
+</html>

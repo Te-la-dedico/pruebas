@@ -192,47 +192,21 @@
 
         let index = 0;
 
-        function fadeOut(element) {
-            element.classList.add('fade-out');
-            setTimeout(() => {
-                element.classList.remove('fade-out');
-            }, 500); // Duración de la animación
-        }
-
-        function fadeIn(element) {
-            element.classList.add('fade-in');
-            setTimeout(() => {
-                element.classList.remove('fade-in');
-            }, 500); // Duración de la animación
-        }
-
         function updateContent() {
             const videoElement = document.getElementById("video");
             const textElement = document.getElementById("text");
             const subtextLinkElement = document.getElementById("subtext-link");
             const downloadLinkElement = document.getElementById("download-anchor");
 
-            // Aplicar fade-out antes de cambiar el contenido
-            fadeOut(videoElement);
-            fadeOut(textElement);
-            fadeOut(subtextLinkElement);
-
-            // Cambiar el contenido después de la animación de fade-out
-            setTimeout(() => {
-                document.getElementById("video-source").src = contents[index].video;
-                document.getElementById("video").load();
-                textElement.innerText = contents[index].text;
-                subtextLinkElement.href = contents[index].subtext;
-                subtextLinkElement.innerText = contents[index].subtext;
-                downloadLinkElement.href = contents[index].download;
-                downloadLinkElement.download = contents[index].download;
-                downloadLinkElement.innerText = contents[index].downloadText;
-
-                // Aplicar fade-in después de cambiar el contenido
-                fadeIn(videoElement);
-                fadeIn(textElement);
-                fadeIn(subtextLinkElement);
-            }, 500); // Esperar a que termine el fade-out
+            // Cambiar el contenido
+            document.getElementById("video-source").src = contents[index].video;
+            document.getElementById("video").load();
+            textElement.innerText = contents[index].text;
+            subtextLinkElement.href = contents[index].subtext;
+            subtextLinkElement.innerText = contents[index].subtext;
+            downloadLinkElement.href = contents[index].download;
+            downloadLinkElement.download = contents[index].download;
+            downloadLinkElement.innerText = contents[index].downloadText;
         }
 
         function prevContent() {
